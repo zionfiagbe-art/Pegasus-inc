@@ -47,26 +47,135 @@
   <div id="dlg"><div class="who" id="dlgWho"></div><div class="txt" id="dlgTxt"></div>
     <div class="hint">E / TIPPEN — weiter</div></div>
 
-  <div class="ov on" id="menuOv"><div class="panel">
-    <h1 class="logo">HAMBURG<br><span>NIGHT RUN</span></h1>
-    <div class="sub">RUN · FIGHT · EXPLORE · HAMBURG</div>
-    <h3 class="sec">CHARACTER</h3>
-    <div class="picks">
-      <div class="pick sel" id="pickMira"><b>MIRA</b><span>schnell · Tritte · Dash</span></div>
-      <div class="pick" id="pickKai"><b>KAI</b><span>stark · Konter · Griffe</span></div>
+    <div class="menu-overlay on" id="menuOv">
+
+    <div class="menu-top">
+      <span class="studio">HNR STUDIOS</span>
+      <span class="location">HAMBURG · GERMANY</span>
     </div>
-    <h3 class="sec">CHAPTERS</h3>
-    <div class="cards" id="cards"></div>
-    <div class="row">
-      <button class="b" id="btnStart">START</button>
-      <button class="b gh" id="btnFull">FULLSCREEN</button>
-      <button class="b gh" id="btnCredits">STORY</button>
+
+    <div class="menu-content">
+
+      <div class="menu-left">
+
+        <div class="title-block">
+          <span class="eyebrow">THE CITY NEVER SLEEPS</span>
+          <h1 class="game-title">
+            HAMBURG
+            <span>NIGHT RUN</span>
+          </h1>
+          <div class="title-line"></div>
+          <p class="subtitle">EVERY STREET HAS A STORY.</p>
+        </div>
+
+        <div class="menu-buttons">
+          <button onclick="startNewGame()" class="selected">
+            <span class="menu-number">01</span>
+            NEUES SPIEL
+            <span class="menu-arrow">›</span>
+          </button>
+
+          <button id="continue-btn"
+            onclick="continueGame()" disabled>
+            <span class="menu-number">02</span>
+            FORTSETZEN
+            <span class="menu-arrow">›</span>
+          </button>
+
+          <button onclick="openModal('chapter-modal')">
+            <span class="menu-number">03</span>
+            KAPITELAUSWAHL
+            <span class="menu-arrow">›</span>
+          </button>
+
+          <button onclick="openModal('options-modal')">
+            <span class="menu-number">04</span>
+            EINSTELLUNGEN
+            <span class="menu-arrow">›</span>
+          </button>
+
+          <button onclick="openModal('credits-modal')">
+            <span class="menu-number">05</span>
+            CREDITS
+            <span class="menu-arrow">›</span>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="menu-character" id="charPick" title="Figur wechseln">
+        <div class="character-glow"></div>
+        <div class="character-body">
+          <i style="left:22px;top:0;width:26px;height:26px;border-radius:50%"></i>
+          <i style="left:18px;top:4px;width:34px;height:9px"></i>
+          <i style="left:16px;top:26px;width:38px;height:56px;background:#1b1226"></i>
+          <i style="left:30px;top:30px;width:10px;height:48px;background:#ff2e88"></i>
+          <i style="left:10px;top:30px;width:8px;height:40px"></i>
+          <i style="left:52px;top:30px;width:8px;height:40px"></i>
+          <i style="left:18px;top:82px;width:14px;height:66px;background:#14101c"></i>
+          <i style="left:38px;top:82px;width:14px;height:66px;background:#14101c"></i>
+          <i style="left:14px;top:146px;width:22px;height:12px;background:#f2f2f5"></i>
+          <i style="left:36px;top:146px;width:22px;height:12px;background:#f2f2f5"></i>
+        </div>
+        <div class="character-label">
+          <span id="charName">MIRA</span>
+          <small>PLAYABLE CHARACTER</small>
+          <div class="char-hint" id="charHint">TIPPE FÜR KAI</div>
+        </div>
+      </div>
+
     </div>
-    <div class="keys">
-      <b>WASD / Pfeile</b> laufen · <b>Leertaste</b> springen (2×) · <b>J</b> Schlag · <b>K</b> Tritt ·
-      <b>L</b> schwerer Angriff · <b>U</b> Spezial · <b>Shift</b> Dash · <b>S</b> Rutschen · <b>E</b> reden
+
+    <div class="menu-footer">
+      <span>HAMBURG NIGHT RUN © 2026</span>
+      <span>RELEASE THE NIGHT</span>
+      <span>VERSION 0.1 · DEMO</span>
     </div>
-  </div></div>
+
+  </div>
+
+  <!-- Kapitel-Fenster -->
+  <div id="chapter-modal" class="modal">
+    <div class="modal-box">
+      <h2>KAPITELAUSWAHL</h2>
+      <p>Wähle dein nächstes Kapitel.</p>
+      <div class="cards" id="cards"></div>
+      <button class="modal-back" onclick="closeModal('chapter-modal')">ZURÜCK</button>
+    </div>
+  </div>
+
+  <!-- Einstellungen -->
+  <div id="options-modal" class="modal">
+    <div class="modal-box">
+      <h2>EINSTELLUNGEN</h2>
+      <label class="opt-row">MUSIK-LAUTSTÄRKE
+        <input id="volSlider" type="range" min="0" max="100" step="1" value="70">
+        <b id="volVal">70</b>
+      </label>
+      <p class="opt-note">
+        <b>WASD / Pfeile</b> laufen · <b>Leertaste</b> springen (2×) · <b>J</b> Schlag · <b>K</b> Tritt ·
+        <b>L</b> schwerer Angriff · <b>U</b> Spezial · <b>Shift</b> Dash · <b>S</b> Rutschen · <b>E</b> reden
+      </p>
+      <button class="modal-back" onclick="closeModal('options-modal')">ZURÜCK</button>
+    </div>
+  </div>
+
+  <!-- Credits -->
+  <div id="credits-modal" class="modal">
+    <div class="modal-box">
+      <h2>CREDITS</h2>
+      <p>HAMBURG NIGHT RUN — ein 2D-Action-Drama in neun Kapiteln.</p>
+      <p class="credits-list">
+        Idee, Story &amp; Figuren: HNR STUDIOS<br>
+        Engine, Kampf &amp; Level: HNR STUDIOS<br>
+        Musik &amp; Sound: im Browser erzeugt (keine fremden Aufnahmen)<br>
+        Grafiken: alle original, direkt im Spiel gezeichnet
+      </p>
+      <p>© 2026 HNR STUDIOS · Hamburg</p>
+      <button class="modal-back" onclick="closeModal('credits-modal');document.getElementById('storyOv').classList.add('on')">STORY LESEN</button>
+      <button class="modal-back" onclick="closeModal('credits-modal')">ZURÜCK</button>
+    </div>
+  </div>
 
   <div class="ov" id="storyOv"><div class="panel">
     <h1 class="logo">DIE <span>STORY</span></h1>
