@@ -125,3 +125,77 @@
   #dlg .txt{font-size:13.5px;line-height:1.55;color:#f2e6ff}
   #dlg .hint{font-size:10px;color:#8f7ea6;margin-top:8px;letter-spacing:.14em}
   #pauseOv .panel{max-width:420px}
+
+  /* ---------- Hauptmenü nach Vorlage ---------- */
+  #menuOv{display:none;flex-direction:column;position:absolute;inset:0;z-index:20;
+    padding:calc(18px + env(safe-area-inset-top)) 26px calc(14px + env(safe-area-inset-bottom));
+    background:radial-gradient(circle at 74% 28%,rgba(58,18,92,.97),rgba(6,2,11,.985) 68%);
+    overflow:auto}
+  #menuOv.on{display:flex}
+  .menu-top{display:flex;justify-content:space-between;gap:12px;font-size:10px;letter-spacing:.3em;color:#a98fd0}
+  .menu-content{flex:1;display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:0;padding:10px 0}
+  .menu-left{flex:1;min-width:0;max-width:580px}
+  .eyebrow{font-size:10px;letter-spacing:.38em;color:#ff9ed2}
+  .game-title{margin:8px 0 0;font-size:clamp(32px,6.6vw,66px);line-height:.9;font-style:italic;
+    font-weight:900;letter-spacing:-.01em;text-shadow:3px 3px 0 #1b0b33}
+  .game-title span{display:block;color:var(--magenta);text-shadow:3px 3px 0 #2a0b3d,0 0 26px rgba(255,46,136,.7)}
+  .title-line{height:5px;width:min(280px,58%);margin:14px 0 10px;transform:skewX(-18deg);
+    background:linear-gradient(90deg,var(--magenta),rgba(255,46,136,0));box-shadow:0 0 18px rgba(255,46,136,.7)}
+  .subtitle{font-size:11px;letter-spacing:.32em;color:#c79bf0;margin:0}
+  .menu-buttons{margin-top:24px;display:flex;flex-direction:column;gap:2px;max-width:420px}
+  .menu-buttons button{display:flex;align-items:center;gap:14px;font:inherit;font-size:13.5px;font-weight:700;
+    letter-spacing:.18em;color:#e5d0ff;background:none;border:none;border-left:3px solid transparent;
+    padding:11px 10px;text-align:left;cursor:pointer;transition:.14s}
+  .menu-buttons button .menu-number{font-size:10px;letter-spacing:.1em;color:#8f7ea6}
+  .menu-buttons button .menu-arrow{margin-left:auto;font-size:16px;color:var(--magenta);opacity:0;transition:.14s}
+  .menu-buttons button:hover,.menu-buttons button.selected{color:#fff;border-left-color:var(--magenta);
+    background:linear-gradient(90deg,rgba(255,46,136,.18),rgba(255,46,136,0))}
+  .menu-buttons button:hover .menu-arrow,.menu-buttons button.selected .menu-arrow{opacity:1}
+  .menu-buttons button:disabled{opacity:.34;cursor:not-allowed;border-left-color:transparent;background:none}
+  .menu-character{position:relative;width:min(280px,32vw);align-self:stretch;display:flex;align-items:flex-end;
+    justify-content:center;cursor:pointer;user-select:none}
+  .character-glow{position:absolute;left:-20px;right:-20px;bottom:-70px;height:72%;border-radius:50%;
+    background:radial-gradient(circle,rgba(168,85,247,.5),rgba(168,85,247,0) 66%);pointer-events:none}
+  .character-body{position:relative;width:74px;height:190px;pointer-events:none}
+  .character-body i{position:absolute;display:block;background:#a86a44;border:1px solid rgba(3,1,6,.9)}
+  .character-label{position:absolute;left:0;right:0;bottom:6px;text-align:center}
+  .character-label span{display:block;font-size:clamp(20px,3.6vw,32px);font-style:italic;font-weight:900;
+    letter-spacing:.06em;text-shadow:0 0 22px rgba(255,46,136,.65)}
+  .character-label small{font-size:9px;letter-spacing:.3em;color:#c79bf0}
+  .char-hint{margin-top:5px;font-size:9px;letter-spacing:.22em;color:#8f7ea6}
+  .menu-footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:9px;
+    letter-spacing:.22em;color:#8f7ea6;padding-top:8px;border-top:1px solid rgba(198,107,255,.18)}
+
+  /* ---------- Modale Fenster ---------- */
+  .modal{position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:18px;
+    background:radial-gradient(circle at 50% 40%,rgba(35,10,55,.96),rgba(5,2,9,.985))}
+  .modal.on{display:flex}
+  .modal-box{width:min(820px,96vw);max-height:92vh;overflow:auto;padding:22px;
+    background:linear-gradient(160deg,#1c0a2c,#12061c 60%);border:1px solid rgba(255,46,136,.45);
+    box-shadow:0 0 60px rgba(255,46,136,.22)}
+  .modal-box h2{margin:0 0 6px;font-size:clamp(18px,3.2vw,26px);font-style:italic;letter-spacing:.05em}
+  .modal-box p{margin:0 0 12px;font-size:12px;line-height:1.65;color:#e8dcf5}
+  .modal-box .credits-list{color:#c79bf0}
+  .modal-back{margin-top:16px;font:inherit;font-size:12px;letter-spacing:.16em;font-weight:700;cursor:pointer;
+    background:transparent;border:1px solid rgba(255,255,255,.3);color:#e5d0ff;padding:11px 20px;transition:.14s}
+  .modal-back:hover{border-color:var(--magenta);color:#fff;box-shadow:0 0 18px rgba(255,46,136,.35)}
+  .opt-row{display:flex;align-items:center;gap:12px;margin:14px 0 6px;font-size:10.5px;
+    letter-spacing:.2em;color:#ffb3d6}
+  .opt-row input[type=range]{flex:1;min-width:120px;accent-color:#ff2e88}
+  .opt-row b{min-width:34px;text-align:right;color:#fff}
+  .opt-note{color:#b491d0 !important;font-size:11px !important;line-height:1.8 !important}
+  @media (max-width:760px){
+    #menuOv{padding-left:16px;padding-right:16px}
+    .menu-content{flex-direction:column;align-items:stretch;justify-content:center;gap:8px}
+    .menu-character{width:100%;height:96px;align-self:auto;align-items:center}
+    .character-body{display:none}
+    .character-label{position:static;margin:0}
+    .menu-buttons{margin-top:12px;max-width:none}
+    .menu-footer{font-size:8px;gap:8px}
+  }
+  @media (max-height:470px){
+    .game-title{font-size:clamp(26px,5vw,40px)}
+    .menu-buttons button{padding:7px 10px;font-size:12px}
+    .menu-content{padding:2px 0}
+    .subtitle{font-size:9px}
+  }
