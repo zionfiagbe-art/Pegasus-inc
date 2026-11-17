@@ -55,23 +55,25 @@ LEVELS.forEach((l, i) => {
     [...cardsEl.children].forEach(x => x.classList.remove('sel'));
     c.classList.add('sel');
     G.levelIndex = i;
+    closeModal('chapter-modal');
+    AudioR.unlock();
+    startLevel(i);
   });
   cardsEl.appendChild(c);
 });
 
 function setChar(c){
   G.char = c;
-  document.getElementById('pickMira').classList.toggle('sel', c === 'mira');
-  document.getElementById('pickKai').classList.toggle('sel', c === 'kai');
+  document.getElementById('charName').textContent = c === 'kai' ? 'KAI' : 'MIRA';
+  document.getElementById('charHint').textContent = c === 'kai' ? 'TIPPE FÜR MIRA' : 'TIPPE FÜR KAI';
 }
-document.getElementById('pickMira').addEventListener('click', () => setChar('mira'));
-if (isTouch) document.getElementById('pickKai').addEventListener('click', () => setChar('kai'));
-else document.getElementById('pickKai').addEventListener('click', () => setChar('kai'));
 
 function toMenu(){
   G.scene = 'menu'; G.playing = false;
   AudioR.stopAmbient();
   document.getElementById('menuOv').classList.add('on');
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('on'));
+  refreshContinue();
   document.getElementById('endOv').classList.remove('on');
   document.getElementById('pauseOv').classList.remove('on');
   document.getElementById('hud').classList.remove('on');
@@ -100,9 +102,53 @@ function goFullscreen(){
   setTimeout(resize, 250);
 }
 
-document.getElementById('btnStart').addEventListener('click', () => { AudioR.unlock(); startLevel(G.levelIndex); });
-document.getElementById('btnFull').addEventListener('click', goFullscreen);
-document.getElementById('btnCredits').addEventListener('click', () => document.getElementById('storyOv').classList.add('on'));
+/* ---------- Hauptmenü-Aktionen ---------- */
+const SAVE_KEY = 'hnr_progress';
+function readSave(){
+  try { return JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); } catch(e){ return null; }
+}
+function writeSave(obj){
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(obj)); } catch(e){}
+}
+function refreshContinue(){
+  const s = readSave(), b = document.getElementById('continue-btn');
+  if (!b) return;
+  b.disabled = !s;
+  b.title = s ? 'Kapitel ' + (s.level + 1) + ' — ' + LEVELS[s.level].name : 'Kein Spielstand vorhanden';
+}
+function startNewGame(){
+  const s = readSave();
+  if (s && s.char) setChar(s.char);
+  G.levelIndex = 0;
+  AudioR.unlock();
+  startLevel(0);
+}
+function continueGame(){
+  const s = readSave();
+  if (!s){ startNewGame(); return; }
+  if (s.char) setChar(s.char);
+  AudioR.unlock();
+  startLevel(Math.min(LEVELS.length - 1, s.level));
+}
+function openModal(id){ const m = document.getElementById(id); if (m) m.classList.add('on'); }
+function closeModal(id){ const m = document.getElementById(id); if (m) m.classList.remove('on'); }
+window.startNewGame = startNewGame; window.continueGame = continueGame;
+window.openModal = openModal; window.closeModal = closeModal;
+
+document.getElementById('charPick').addEventListener('click', () => setChar(G.char === 'kai' ? 'mira' : 'kai'));
+const volSlider = document.getElementById('volSlider');
+if (volSlider){
+  volSlider.value = Math.round(AudioR.vol * 100);
+  document.getElementById('volVal').textContent = volSlider.value;
+  volSlider.addEventListener('input', () => {
+    const v = Number(volSlider.value) / 100;
+    AudioR.setVol(v);
+    document.getElementById('volVal').textContent = volSlider.value;
+    const s = readSave() || { level: 0, char: G.char };
+    s.vol = v;
+    writeSave(s);
+  });
+}
 document.getElementById('btnStoryBack').addEventListener('click', () => document.getElementById('storyOv').classList.remove('on'));
 document.getElementById('btnResume').addEventListener('click', togglePause);
 document.getElementById('btnRestart').addEventListener('click', () => startLevel(G.levelIndex));
@@ -116,7 +162,8 @@ addEventListener('keydown', e => {
   if (e.code === 'Escape' || e.code === 'KeyP'){
     if (G.scene === 'play' || G.scene === 'pause') togglePause();
   }
-  if (e.code === 'Enter' && G.scene === 'menu') startLevel(G.levelIndex);
+  if (e.code === 'Enter' && G.scene === 'menu') startNewGame();
+  if (e.code === 'Escape') document.querySelectorAll('.modal.on').forEach(m => m.classList.remove('on'));
   if (e.code === 'KeyR' && (G.scene === 'play' || G.scene === 'pause')) startLevel(G.levelIndex);
 });
 document.addEventListener('contextmenu', e => e.preventDefault());
@@ -198,6 +245,16 @@ function frame(ts){
   requestAnimationFrame(frame);
 }
 setChar('mira');
+(function initMenu(){
+  const s = readSave();
+  if (s && s.vol != null){
+    AudioR.setVol(clamp(s.vol, 0, 1));
+    const sl = document.getElementById('volSlider');
+    if (sl){ sl.value = Math.round(AudioR.vol * 100); document.getElementById('volVal').textContent = sl.value; }
+  }
+  if (s && s.char) setChar(s.char);
+  refreshContinue();
+})();
 requestAnimationFrame(frame);
 
 /* =========================================================
