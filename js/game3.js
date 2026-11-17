@@ -139,6 +139,7 @@ function startLevel(index){
   const def = LEVELS[index];
   if (!def) return;
   G.levelIndex = index;
+  if (typeof writeSave === 'function') writeSave({ level: index, char: G.char, vol: AudioR.vol });
   G.score = 0; G.combo = 0; G.comboT = 0; G.time = 0;
   G.boss = null; G.projs = [];
   const lvl = {
@@ -524,38 +525,4 @@ function hexA(hex, a){
   const h = hex.replace('#','');
   const r = parseInt(h.substring(0,2),16), g = parseInt(h.substring(2,4),16), b = parseInt(h.substring(4,6),16);
   return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
-}
-
-function cityLayer(off, baseY, color, seed, sc, opts = {}){
-  const pal = opts.pal || LEVELS[0].pal;
-  const minH = opts.minH ?? 40, maxH = opts.maxH ?? 150;
-  let x = -((off*sc) % 260) - 40;
-  let s = seed;
-  const rand = () => { s = (s*9301 + 49297) % 233280; return s/233280; };
-  while (x < VW + 260){
-    const w = 38 + rand()*86;
-    const h = minH + rand()*maxH;
-    const top = baseY - h;
-    ctx.fillStyle = color;
-    ctx.fillRect(x, top, w, h);
-    // Dachkante mit Rim-Light
-    ctx.fillStyle = hexA(pal.glow2, .22);
-    ctx.fillRect(x, top, w, 1.5);
-    // Fenster
-    for (let wy = top + 10; wy < baseY - 8; wy += 13){
-      for (let wx = x + 6; wx < x + w - 9; wx += 12){
-        const lit = ((wx*7 + wy*13 + seed) % 7) < 2;
-        ctx.fillStyle = lit ? hexA(pal.glow, .30) : 'rgba(255,255,255,.035)';
-        ctx.fillRect(wx, wy, 4, 5);
-      }
-    }
-    // Antenne / Aufbau
-    if (rand() > .72){
-      ctx.fillStyle = color;
-      ctx.fillRect(x + w*.4, top - 16, 3, 16);
-      ctx.fillStyle = hexA('#ff3b5c', .8);
-      ctx.fillRect(x + w*.4, top - 18, 3, 3);
-    }
-    x += w + 8 + rand()*14;
-  }
 }
