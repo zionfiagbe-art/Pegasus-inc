@@ -78,14 +78,21 @@ const P = {
 
 /* ---------------- Audio (synthetisch, keine Assets) ---------------- */
 const AudioR = {
-  on:false, ac:null, ambient:null,
+  on:false, ac:null, ambient:null, master:null, vol:0.7,
   unlock(){
     try{
       this.ac = this.ac || new (window.AudioContext || window.webkitAudioContext)();
       if (this.ac.state === 'suspended') this.ac.resume();
+      if (!this.master){
+        this.master = this.ac.createGain();
+        this.master.gain.value = this.vol;
+        this.master.connect(this.ac.destination);
+      }
+      this.master.gain.value = this.vol;
       this.on = true;
     }catch(e){ this.on = false; }
   },
+  setVol(v){ this.vol = clamp(v, 0, 1); if (this.master) this.master.gain.value = this.vol; },
   blip(freq=220, dur=.08, type='square', vol=.05, slide=0){
     if (!this.on || !this.ac) return;
     const t = this.ac.currentTime;
@@ -94,7 +101,7 @@ const AudioR = {
     if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(40,freq+slide), t+dur);
     g.gain.setValueAtTime(vol, t);
     g.gain.exponentialRampToValueAtTime(.0008, t+dur);
-    o.connect(g); g.connect(this.ac.destination);
+    o.connect(g); g.connect(this.master || this.ac.destination);
     o.start(t); o.stop(t+dur+.02);
   },
   hit(){ this.blip(140,.07,'square',.05,-70); },
@@ -114,10 +121,10 @@ const AudioR = {
       const src = ac.createBufferSource(); src.buffer = buf; src.loop = true;
       const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 320;
       const g = ac.createGain(); g.gain.value = .05;
-      src.connect(lp); lp.connect(g); g.connect(ac.destination); src.start();
+      src.connect(lp); lp.connect(g); g.connect(this.master || ac.destination); src.start();
       const o = ac.createOscillator(); o.type = 'sine'; o.frequency.value = 51;
       const og = ac.createGain(); og.gain.value = .028;
-      o.connect(og); og.connect(ac.destination); o.start();
+      o.connect(og); og.connect(this.master || ac.destination); o.start();
       this.ambient = { src, o };
     }catch(e){ this.ambient = null; }
   },
