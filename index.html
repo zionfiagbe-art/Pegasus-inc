@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b0410">
+<title>HAMBURG NIGHT RUN</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="stage"><div id="wrap">
+  <canvas id="game"></canvas>
+
+  <div id="hud">
+    <div class="hudTop">
+      <div class="pblock">
+        <div class="pname" id="hudName">MIRA</div>
+        <div class="hearts" id="hearts"></div>
+      </div>
+      <div class="pblock" style="align-items:flex-end">
+        <div class="lvName" id="hudLevel">LEVEL 1 — REEPERBAHN</div>
+        <div class="scoreLbl" id="hudScore">SCORE 000000</div>
+      </div>
+    </div>
+    <div id="bossbar"><b id="bossName"></b><div class="track"><div class="fill" id="bossFill"></div></div></div>
+    <div id="combo">0<small>HITS</small></div>
+    <div id="toast"></div>
+    <div id="tPause">II</div>
+  </div>
+
+  <div id="touch">
+    <div id="dpad">
+      <div class="tbtn" id="tLeft" data-k="left">◀</div>
+      <div class="tbtn" id="tRight" data-k="right">▶</div>
+    </div>
+    <div class="tbtn" id="tJump" data-k="jump">JUMP</div>
+    <div id="actions">
+      <div class="tbtn" id="tPunch" data-k="punch">PUNCH</div>
+      <div class="tbtn" id="tKick" data-k="kick">KICK</div>
+      <div class="tbtn" id="tHeavy" data-k="heavy">HEAVY</div>
+      <div class="tbtn sp" id="tSpecial" data-k="special">SPEC</div>
+      <div class="tbtn sp" id="tDash" data-k="dash">DASH</div>
+    </div>
+  </div>
+
+  <div id="dlg"><div class="who" id="dlgWho"></div><div class="txt" id="dlgTxt"></div>
+    <div class="hint">E / TIPPEN — weiter</div></div>
+
+  <div class="ov on" id="menuOv"><div class="panel">
+    <h1 class="logo">HAMBURG<br><span>NIGHT RUN</span></h1>
+    <div class="sub">RUN · FIGHT · EXPLORE · HAMBURG</div>
+    <h3 class="sec">CHARACTER</h3>
+    <div class="picks">
+      <div class="pick sel" id="pickMira"><b>MIRA</b><span>schnell · Tritte · Dash</span></div>
+      <div class="pick" id="pickKai"><b>KAI</b><span>stark · Konter · Griffe</span></div>
+    </div>
+    <h3 class="sec">CHAPTERS</h3>
+    <div class="cards" id="cards"></div>
+    <div class="row">
+      <button class="b" id="btnStart">START</button>
+      <button class="b gh" id="btnFull">FULLSCREEN</button>
+      <button class="b gh" id="btnCredits">STORY</button>
+    </div>
+    <div class="keys">
+      <b>WASD / Pfeile</b> laufen · <b>Leertaste</b> springen (2×) · <b>J</b> Schlag · <b>K</b> Tritt ·
+      <b>L</b> schwerer Angriff · <b>U</b> Spezial · <b>Shift</b> Dash · <b>S</b> Rutschen · <b>E</b> reden
+    </div>
+  </div></div>
+
+  <div class="ov" id="storyOv"><div class="panel">
+    <h1 class="logo">DIE <span>STORY</span></h1>
+    <div class="sub">HAMBURG · 02:17</div>
+    <p style="font-size:13px;line-height:1.65;color:#e8dcf5">
+      Mira wird auf der Reeperbahn eine schwarze Tasche vor die Füße gestoßen. Sie ist in acht Sekunden weg —
+      und in ihr steckt kein Geld, sondern das Kontobuch eines Viertels, das gerade verkauft wird.
+      Acht Nächte, acht Orte, und ein Vater, der seit sechs Jahren tot sein soll.
+    </p>
+    <div class="row"><button class="b" id="btnStoryBack">ZURÜCK</button></div>
+  </div></div>
+
+  <div class="ov" id="pauseOv"><div class="panel">
+    <h1 class="logo">PAUSE</h1>
+    <div class="row">
+      <button class="b" id="btnResume">WEITER</button>
+      <button class="b gh" id="btnRestart">NEUSTART</button>
+      <button class="b gh" id="btnMenu">MENÜ</button>
+    </div>
+  </div></div>
+
+  <div class="ov" id="endOv"><div class="panel" style="text-align:center">
+    <h1 class="logo" id="endTitle">CHAPTER <span>CLEAR</span></h1>
+    <div class="sub" id="endSub">REEPERBAHN</div>
+    <p id="endText" style="font-size:13px;line-height:1.6;color:#e8dcf5;max-width:560px;margin:0 auto"></p>
+    <div class="row" style="justify-content:center">
+      <button class="b" id="btnNext">WEITER</button>
+      <button class="b gh" id="btnAgain">NOCHMAL</button>
+      <button class="b gh" id="btnToMenu">MENÜ</button>
+    </div>
+  </div></div>
+</div></div>
+
+<script src="js/game1.js"></script>
+<script src="js/game2.js"></script>
+<script src="js/game3.js"></script>
+<script src="js/game4.js"></script>
+<script src="js/game5.js"></script>
+
+</body>
+</html>
