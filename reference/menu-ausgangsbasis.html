@@ -1,0 +1,87 @@
+<!-- HAMBURG NIGHT RUN — Ausgangsbasis des Nutzers
+     Menü-Grundgerüst (Hauptmenü + Kapitel-Fenster), wie vom Nutzer vorgegeben.
+     Nur Referenz: das laufende Spiel liegt in index.html. -->
+
+<div id="main-menu" class="menu-overlay">
+
+  <div class="menu-top">
+    <span class="studio">HNR STUDIOS</span>
+    <span class="location">HAMBURG · GERMANY</span>
+  </div>
+
+  <div class="menu-content">
+
+    <div class="menu-left">
+
+      <div class="title-block">
+        <span class="eyebrow">THE CITY NEVER SLEEPS</span>
+        <h1 class="game-title">
+          HAMBURG
+          <span>NIGHT RUN</span>
+        </h1>
+        <div class="title-line"></div>
+        <p class="subtitle">EVERY STREET HAS A STORY.</p>
+      </div>
+
+      <div class="menu-buttons">
+        <button onclick="startNewGame()" class="selected">
+          <span class="menu-number">01</span>
+          NEUES SPIEL
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <button id="continue-btn"
+          onclick="continueGame()" disabled>
+          <span class="menu-number">02</span>
+          FORTSETZEN
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <button onclick="openModal('chapter-modal')">
+          <span class="menu-number">03</span>
+          KAPITELAUSWAHL
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <button onclick="openModal('options-modal')">
+          <span class="menu-number">04</span>
+          EINSTELLUNGEN
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <button onclick="openModal('credits-modal')">
+          <span class="menu-number">05</span>
+          CREDITS
+          <span class="menu-arrow">›</span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="menu-character">
+      <div class="character-glow"></div>
+      <div class="character-label">
+        <span>MIRA</span>
+        <small>PLAYABLE CHARACTER</small>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="menu-footer">
+    <span>HAMBURG NIGHT RUN © 2026</span>
+    <span>RELEASE THE NIGHT</span>
+    <span>VERSION 0.1 · DEMO</span>
+  </div>
+
+</div>
+
+<!-- Kapitel-Fenster -->
+<div id="chapter-modal" class="modal">
+  <h2>KAPITELAUSWAHL</h2>
+  <p>Wähle dein nächstes Kapitel.</p>
+  <br>
+  <button onclick="closeModal('chapter-modal')">
+    ZURÜCK
+  </button>
+</div>
